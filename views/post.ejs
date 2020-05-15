@@ -10,8 +10,11 @@
   <body>
     <h1><%= title %></h1>
     <p>Say Something</p>
-    <form id=“xForm" onsubmit="onSubmit()">
-    <input type="file" accept="image/*" name="file" id="file" value = "file">
+
+    <form id="img_form" action="" method="POST" enctype="multipart/form-data">
+    <input type="file" accept="image/*" name="file" id="file" value = "file" onchange="changeImg()">
+    </form>
+    <form id="xForm" onsubmit="onSubmit()">
     <p><select name="user">
                <option value ="user1">User1</option>
                <option value ="user2">User2</option>
@@ -20,28 +23,10 @@
              </select>
     </p>
     <p><textarea rows="7" cols="30" name="text" id="text" maxlength="150">This is a test !</textarea></p>
+    <img id="preview">
     <p><input type="submit" name="g" value="Submit" id="g"></p>
     </form>
   </body>
-  <img id="preview">
+
   <label id="results" style="margin-top:30px"></label>
-  <script>
-              var fileDom = document.getElementById("file");
-              var previewDom = document.getElementById("preview");
-              fileDom.addEventListener("change", e=>{
-                  var file = fileDom.files[0];
-                  // check if input contains a valid image file
-                  if (!file || file.type.indexOf("image/") < 0) {
-                      fileDom.value = "";
-                      previewDom.src = "";
-                      return;
-                  }
-                  // use FileReader to load image and show preview of the image
-                  var fileReader = new FileReader();
-                  fileReader.onload = e=>{
-                      previewDom.src = e.target.result;
-                  };
-                  fileReader.readAsDataURL(file);
-              });
-          </script>
 </html>
