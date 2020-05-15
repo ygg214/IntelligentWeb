@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <script src="javascripts/index.js"></script>
+
+  </head>
+  <body onload="checkForErrors( <%= login_is_correct %>)">
+    <h1><%= title %></h1>
+    <p>Choose a user
+
+    <form action="mainpage" method="POST">
+      <select name="user">
+        <option value ="user1">User1</option>
+        <option value ="user2">User2</option>
+        <option value="user3">User3</option>
+        <option value="user4">User4</option>
+      </select>
+      <input type="submit"></form>
+    </form>
+  </body>
+</html>
