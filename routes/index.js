@@ -1,6 +1,37 @@
 var express = require('express');
 var router = express.Router();
-var bodyParser = require("body-parser");
+
+//get data
+function getNowFormatDate() {
+  var date = new Date();
+  var seperator1 = "-";
+  var month = date.getMonth() + 1;
+  var strDate = date.getDate();
+  if (month >= 1 && month <= 9) {
+    month = "0" + month;
+  }
+  if (strDate >= 0 && strDate <= 9) {
+    strDate = "0" + strDate;
+  }
+  var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate;
+  return currentdate.toString();
+}
+var datatime = 'public/images/'+getNowFormatDate();
+var multer = require('multer')
+var storage = multer.diskStorage({
+  destination: datatime,
+  filename: function (req, file, cb) {
+    cb(null,  file.originalname);
+  }
+});
+var upload = multer({
+  storage: storage
+});
+
+router.post('/post',upload.single('picUrl'),function(req,res,next){
+  console.log(req.file)//req.file文件的具体信息
+  // res.send({ret_code: datatime});
+});
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
