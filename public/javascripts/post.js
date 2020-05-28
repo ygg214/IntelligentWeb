@@ -54,25 +54,6 @@ function addToResult(data){
     reader.readAsDataURL(file);
 }*/
 
-function changeImg(){
-    var fileDom = document.getElementById("file");
-    var previewDom = document.getElementById("preview");
-    fileDom.addEventListener("change", function (ev) {
-        var file = fileDom.files[0];
-        // check if input contains a valid image file
-        if (!file || file.type.indexOf("image/") < 0) {
-            fileDom.value = "";
-            previewDom.src = "";
-            return;
-    }
-    // use FileReader to load image and show preview of the image
-    var fileReader = new FileReader();
-    fileReader.onload = function (ev1) {
-        previewDom.src = ev1.target.result;
-    };
-    fileReader.readAsDataURL(file);
-});
-}
 
 function onSubmit() {
     var formArray = $("form").serializeArray();
@@ -114,6 +95,7 @@ function uploadPicture(){
                     //所有的图片格式
                     msg = `<a href="javascript:;" class="picCheck"><img src="${src}"></a>`;
                     // 这里将msg 追加到你要显示的区域
+                    document.getElementById('picture').value = JSON.stringify(src);
                 }
             }
         })
