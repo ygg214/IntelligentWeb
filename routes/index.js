@@ -28,15 +28,14 @@ var upload = multer({
   storage: storage
 });
 
-router.post('/post',upload.single('picUrl'),function(req,res,next){
+router.post('/post',upload.single('file'),function(req,res,next){
   var url = datatime +'/'+ req.file.originalname;
-  res.render('post',{title:url});
-  // //将其发回客户端
-  // res.json({
-  //   code : 1,
-  //   data : url
-  // });
-  // res.end();
+  //将其发回客户端
+  res.json({
+    code : 1,
+    data : url
+  });
+  res.end();
 });
 
 /* GET home page. */
