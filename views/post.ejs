@@ -4,8 +4,8 @@
     <title><%= title %></title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="http://malsup.github.io/jquery.form.js"></script>
     <script src="javascripts/post.js"></script>
-
   </head>
   <body>
     <h1><%= title %></h1>
@@ -13,7 +13,7 @@
 
     <form method="post" action="" class="form-horizontal" enctype="multipart/form-data">
       <input type="file" name="picUrl" class="form-control">
-      <button class="btn btn-primary" type="submit">upload</button>
+      <button id="picUpload" class="btn btn-primary" type="submit">upload</button>
     </form>
 
     <form id="xForm" onsubmit="onSubmit()">
@@ -25,9 +25,50 @@
              </select>
     </p>
     <p><textarea rows="7" cols="30" name="text" id="text" maxlength="150">This is a test !</textarea></p>
+    <p><input type="text" name="picture" id="picture" value=<%= title %>></p>
     <img id="preview">
     <p><input type="submit" name="g" value="Submit" id="g"></p>
     </form>
+
+    <script>
+      var file=$("#picUpload")[0];
+      //这里使用的是onchange事件，所以当你选择完文件之后，就触发事件上传
+      file.οnclick=function(){
+        //创建一个FormDate
+        var formData=new FormData();
+        //将文件信息追加到其中
+        formData.append('file',file.files[0]);
+        //利用split切割，拿到上传文件的格式
+        var src=file.files[0].name,
+                formart=src.split(".")[1];
+        //使用if判断上传文件格式是否符合
+        if(formart=="jpg"||formart=="png"){
+          //只有满足以上格式时，才会触发ajax请求
+          $.ajax({
+            url: '/post',
+            type: 'POST',
+            data: formData,
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function (data) {
+              //上传成功之后，返回对象data
+              if (data.code > 0) {
+                var src = data.data;
+                //利用返回值src 网络路径，来实现上传文档的下载
+                //所有的图片格式
+                msg = `<a href="javascript:;" class="picCheck"><img src="${src}"></a>`;
+                // 这里将msg 追加到你要显示的区域
+              }
+            }
+          })
+            //不满足上传格式时
+        }else{
+          alert("文件格式不支持上传")
+        }
+      }
+    </script>
+
   </body>
 
   <label id="results" style="margin-top:30px"></label>

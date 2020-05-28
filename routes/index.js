@@ -29,8 +29,14 @@ var upload = multer({
 });
 
 router.post('/post',upload.single('picUrl'),function(req,res,next){
-  console.log(req.file)//req.file文件的具体信息
-  // res.send({ret_code: datatime});
+  var url = datatime +'/'+ req.file.originalname;
+  res.render('post',{title:url});
+  // //将其发回客户端
+  // res.json({
+  //   code : 1,
+  //   data : url
+  // });
+  // res.end();
 });
 
 /* GET home page. */
