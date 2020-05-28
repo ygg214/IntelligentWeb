@@ -28,7 +28,7 @@ var upload = multer({
   storage: storage
 });
 
-router.post('/post',upload.single('file'),function(req,res,next){
+router.post('/post_pic',upload.single('file'),function(req,res,next){
   var url = datatime +'/'+ req.file.originalname;
   //将其发回客户端
   res.json({

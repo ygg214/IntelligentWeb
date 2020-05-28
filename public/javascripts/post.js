@@ -13,8 +13,7 @@ function sendAjaxQuery(url, data) {
             //addToResult(dataR);
         },
         error: function (xhr, status, error) {
-            //alert('Error' + error.message);
-            addToResult(getCachedData(data));
+            alert('Error' + error.message);
         }
     });
 }
@@ -81,7 +80,7 @@ function uploadPicture(){
     if(formart=="jpg"||formart=="png"){
         //只有满足以上格式时，才会触发ajax请求
         $.ajax({
-            url: '/post',
+            url: '/post_pic',
             type: 'POST',
             data: formData,
             cache: false,

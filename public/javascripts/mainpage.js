@@ -16,6 +16,7 @@ function loadData() {
             "user: " + value.user +
             "<p>"+"text id:"+value.textid +
             "<p>"+"text: "+ value.text +
+            "<p><img src="+value.picture+"/>"
             "</div>";
     }
 }
