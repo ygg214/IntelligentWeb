@@ -4,11 +4,13 @@
     <meta charset="UTF-8">
     <title>Hello  <%= title %></title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
+    <script src="javascripts/mainpage.js"></script>
 
 </head>
-<body>
+<body onload = "initPostData()">
 <h1>Welcome!  <%= title %></h1>
 <p><a href="post">Post</a></p>
 <p><a href="wall">Story Wall</a></p>
+<p><label id="results" style="margin-top:30px"></label></p>
 </body>
 </html>
