@@ -30,7 +30,8 @@ var upload = multer({
 });
 
 router.post('/post_pic',upload.single('file'),function(req,res,next){
-  var url = datatime +'/'+ req.file.originalname;
+  var url = picUrl +'/'+ req.file.originalname;
+  // console.log(url);
   //将其发回客户端
   res.json({
     code : 1,

@@ -89,9 +89,7 @@ function uploadPicture(){
                 //return data after uploading
                 if (data.code > 0) {
                     var src = data.data;
-                    //msg = `<a href="javascript:;" class="picCheck"><img src="${src}"></a>`;
-                    //
-                    document.getElementById('picture').value = JSON.stringify(src);
+                    document.getElementById('picture').value = src;
                 }
             }
         })
