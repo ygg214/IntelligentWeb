@@ -6,7 +6,9 @@
     <link rel='stylesheet' href='/stylesheets/style.css' />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="http://malsup.github.io/jquery.form.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
     <script src="javascripts/index.js"></script>
+    <script src="javascripts/database.js"></script>
 
 </head>
 <body onload = "checkLogin()">
@@ -15,7 +17,8 @@
   <p><input type="text" id="loginuser" oninput = "value=value.replace(/[^\d]/g,'')"></p>
   <p><input type="submit" value="Confirm" onclick=chooseUser()></p>
 </dialog>
-<h1>Welcome!  <%= title %></h1>
+<h1><%= title %></h1>
+<label id="offlinelabel" style="display: none">Offline Mode</label>
 <div class="offline_div" id="offline_div" style="display: none">You are offline</div>
 <p><a href="post">Post</a></p>
 <p><a href="wall">Story Wall</a></p>

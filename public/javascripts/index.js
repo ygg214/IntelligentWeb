@@ -31,7 +31,6 @@ function chooseUser(){
     }else{
         alert("Username cannot be empty");
     }
-
 }
 
 function loadData() {
@@ -49,11 +48,11 @@ function loadData() {
                 "  <p hidden><input  name=\"userid\" value="+sessionStorage.getItem("USER_NAME")+"></p>\n" +
                 "  <p hidden><input  name=\"textid\" value="+value.textid+"></p>\n" +
                 "     <p><select name=\"ratings\">\n" +
-                "      <option value =\"0\">hate</option>\n" +
-                "      <option value =\"1\">dislike</option>\n" +
+                "      <option value =\"4\">Very like</option>\n" +
+                "      <option value =\"3\">like</option>\n" +
                 "      <option value =\"2\">ok</option>\n" +
-                "      <option value=\"3\">like</option>\n" +
-                "      <option value=\"4\">Very like</option>\n" +
+                "      <option value=\"1\">dislike</option>\n" +
+                "      <option value=\"0\">hate</option>\n" +
                 "    </select>" +
                 "  <input type=\"submit\" value=\"Submit\"></p>" +
                 "</form></p>"+
@@ -101,9 +100,11 @@ window.addEventListener('online',function (e) {
 },false);
 
 function showOfflineWarning() {
-
+    if (document.getElementById('offlinelabel')!=null)
+        document.getElementById('offlinelabel').style.display='block';
 }
 
 function hideOfflineWarning() {
-
+    if (document.getElementById('offlinelabel')!=null)
+        document.getElementById('offlinelabel').style.display='none';
 }
