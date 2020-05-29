@@ -13,6 +13,12 @@ function checkLogin(){
                 console.log("Fail to register",err);
             });
     }
+    if ('indexedDB' in window) {
+        initDatabase();
+    }
+    else {
+        console.log('This browser doesn\'t support IndexedDB');
+    }
 }
 
 function chooseUser(){
