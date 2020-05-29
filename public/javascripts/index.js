@@ -44,7 +44,7 @@ function loadData() {
                 "<p>"+"text id:"+value.textid +
                 "<p>"+"text: "+ value.text +
                 //"<p><img src='"+value.picture+"'></img>"+
-                "<p></p><a href=\"javascript:;\" class=\"picCheck\"><img src=\"${"+value.picture+"}\"></a></p>"+
+                "<p></p><a href=\"javascript:;\" class=\"picCheck\"><img width=300px height=250px src="+value.picture+" /></a></p>"+
                 "<p> <form id=\"form\" onsubmit=\"onSubmit()\">\n" +
                 "  <p hidden><input  name=\"userid\" value="+sessionStorage.getItem("USER_NAME")+"></p>\n" +
                 "  <p hidden><input  name=\"textid\" value="+value.textid+"></p>\n" +
