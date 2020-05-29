@@ -90,7 +90,7 @@ function uploadPicture(){
                 if (data.code > 0) {
                     var src = data.data;
                     //msg = `<a href="javascript:;" class="picCheck"><img src="${src}"></a>`;
-                    // 这里将msg 追加到你要显示的区域
+                    //
                     document.getElementById('picture').value = JSON.stringify(src);
                 }
             }

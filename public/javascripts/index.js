@@ -99,12 +99,15 @@ function uploadJSON() {
     inputElement.addEventListener("change",hanleFIles,false);
     function handleFiles() {
         var selectedFile = document.getElementById("JSONFile").files[0];
+        var name = selectedFile.name;
+        console.log(name);
         var reader = new FileReader();
         reader.readAsText(selectedFile);
 
         reader.onload = function () {
-            //let json = JSON.parse(this.result);
-            localStorage.setItem(localStorage.length+1,this.result);
+            console.log(this.result);
+            let json = JSON.parse(this.result);
+            console.log(json.userid);
         }
     }
 }

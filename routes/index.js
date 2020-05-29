@@ -16,7 +16,8 @@ function getNowFormatDate() {
   var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate;
   return currentdate.toString();
 }
-var datatime = 'public/images/'+getNowFormatDate();
+var picUrl = 'images/' + getNowFormatDate();
+var datatime = 'public/'+picUrl;
 var multer = require('multer')
 var storage = multer.diskStorage({
   destination: datatime,
@@ -68,5 +69,33 @@ router.post('/post',function (req,res,next) {
   res.send(JSON.stringify(postData));
 })
 
+/**
+ *
+ * @param userId
+ * @param ratings
+ * @constructor
+ */
+class User{
+  constructor (userId, ratings) {
+    this.userId= userId;
+    this.ratings= ratings;
+  }
+}
+/**
+ *
+ * @param storyId
+ * @param userId
+ * @param text
+ * @param picture
+ * @constructor
+ */
+class Story{
+  constructor (storyId, userId, text, picture) {
+    this.storyId= storyId;
+    this.userId= userId;
+    this.text= text;
+    this.picture= picture;
+  }
+}
 
 module.exports = router;
