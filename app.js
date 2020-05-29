@@ -8,6 +8,8 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
 var app = express();
+const server = require('http').createServer(app);
+const io = require('socket.io')(server);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -38,4 +40,16 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
+io.on('connection',socket=>{
+  socket.on("sendToServer",message=>{
+    io.emit("sendToClient",{message});
+  });
+  socket.on("disconnect",()=>{
+    console.log("disconnect with socket.io");
+  });
+});
+
+
+
+server.listen(8081);
 module.exports = app;

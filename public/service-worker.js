@@ -7,7 +7,8 @@ var filesToCache = [
     '/javascripts/wall.js',
     '/javascripts/mainpage.js',
     '/javascripts/database.js',
-    '/stylesheets/style.css'
+    '/stylesheets/style.css',
+    '/manifast.json'
 ];
 
 

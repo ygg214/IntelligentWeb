@@ -12,53 +12,60 @@ function loadData() {
         var value = JSON.parse(localStorage.getItem(i));
         var row = document.createElement('div');
         document.getElementById('results').appendChild(row);
-        row.innerHTML =
-            "user: " + value.user +
-            "<p>"+"text id:"+value.textid +
-            "<p>"+"text: "+ value.text +
-            "<p> <form id=\"form\" onsubmit=\"onSubmit()\">\n" +
-            "  <p hidden><input  name=\"userid\" id=\"userid\" value=\""+sessionStorage.getItem("USER_NAME")+"\"></p>\n" +
-            "  <p hidden><input  name=\"textid\" id=\"textid\" value=\""+value.textid+"\"></p>\n" +
-            "     <p><select name=\"ratings\">\n" +
-            "      <option value =\"0\">hate</option>\n" +
-            "      <option value =\"1\">dislike</option>\n" +
-            "      <option value =\"2\">ok</option>\n" +
-            "      <option value=\"3\">like</option>\n" +
-            "      <option value=\"4\">Very like</option>\n" +
-            "    </select>" +
-            "  <input type=\"submit\" value=\"Submit\"></p>" +
-            "</form></p>"+
-            "</div>";
+        if(value.picture!=null){
+            row.innerHTML =
+                "user: " + value.user +
+                "<p>"+"text id:"+value.textid +
+                "<p>"+"text: "+ value.text +
+                "<p><img src='"+value.picture+"'></img>"+
+                "<p> <form id=\"form\" onsubmit=\"onSubmit()\">\n" +
+                "  <p hidden><input  name=\"userid\" id=\"userid\" value=\""+sessionStorage.getItem("USER_NAME")+"\"></p>\n" +
+                "  <p hidden><input  name=\"textid\" id=\"textid\" value=\""+value.textid+"\"></p>\n" +
+                "     <p><select name=\"ratings\">\n" +
+                "      <option value =\"0\">hate</option>\n" +
+                "      <option value =\"1\">dislike</option>\n" +
+                "      <option value =\"2\">ok</option>\n" +
+                "      <option value=\"3\">like</option>\n" +
+                "      <option value=\"4\">Very like</option>\n" +
+                "    </select>" +
+                "  <input type=\"submit\" value=\"Submit\"></p>" +
+                "</form></p>"+
+                "</div>";
+        }else{
+            row.innerHTML =
+                "user: " + value.user +
+                "<p>"+"text id:"+value.textid +
+                "<p>"+"text: "+ value.text +
+                "<p> <form id=\"#\" onsubmit=\"onSubmit()\">\n" +
+                "  <p hidden><input  name=\"userid\" id=\"userid\" value=\""+sessionStorage.getItem("USER_NAME")+"\"></p>\n" +
+                "  <p hidden><input  name=\"textid\" id=\"textid\" value=\""+value.textid+"\"></p>\n" +
+                "     <p><select name=\"ratings\">\n" +
+                "      <option value =\"0\">hate</option>\n" +
+                "      <option value =\"1\">dislike</option>\n" +
+                "      <option value =\"2\">ok</option>\n" +
+                "      <option value=\"3\">like</option>\n" +
+                "      <option value=\"4\">Very like</option>\n" +
+                "    </select>" +
+                "  <button id=\"send\">send</button></p>" +
+                "</form></p>"+
+                "</div>";
+        }
+
     }
 }
 
 function onSubmit() {
-    var formArray = $("form").serializeArray();
-    var data = {};
-    for (index in formArray){
-        data[formArray[index].name]=formArray[index].value;
-    }
-    sendAjaxQuery('/mainpage_rating',data);
-    event.preventDefault();
-}
-function sendAjaxQuery(url, data) {
-    //getCachedData(data);
-    var input = JSON.stringify(data);
-    $.ajax({
-        url: url,
-        data: input,
-        contentType: 'application/json',
-        type: 'POST',
-        success: function (dataR) {
-            var ret = dataR;
-            storeCachedData(dataR);
-            //addToResult(dataR);
-        },
-        error: function (xhr, status, error) {
-            alert('Error' + error.message);
-        }
+    const socket = io.connect("http://localhost:8081");
+    $("#send").click(function () {
+        let message = $("#userid").val().trim();
+        socket.emit("sendToServer",message);
+    });
+
+    socket.on("sendToClient",message=>{
+        console.log(message);
     });
 }
+
 function storeCachedData(data) {
     localStorage.setItem(data.userid +"."+ data.textid,JSON.stringify(data));
 }
