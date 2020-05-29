@@ -1,6 +1,6 @@
 function checkLogin(){
     if(sessionStorage.getItem('USER_NAME')==null){
-        var dialog = document.getElementById("dia");
+        var dialog = document.getElementById("logindialog");
         dialog.showModal();
     }else
         loadData();
@@ -19,7 +19,7 @@ function chooseUser(){
     if(document.getElementById("loginuser").value!=""){
         const value=document.getElementById("loginuser").value;
         sessionStorage.setItem('USER_NAME',value);
-        var dialog = document.getElementById("dia");
+        var dialog = document.getElementById("logindialog");
         dialog.close();
         loadData();
     }else{

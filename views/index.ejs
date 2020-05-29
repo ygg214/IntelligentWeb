@@ -10,7 +10,7 @@
 
 </head>
 <body onload = "checkLogin()">
-<dialog id="dia">
+<dialog id="logindialog">
   <p>Input a user id, only integer is accepted </p>
   <p><input type="text" id="loginuser" oninput = "value=value.replace(/[^\d]/g,'')"></p>
   <p><input type="submit" value="Confirm" onclick=chooseUser()></p>

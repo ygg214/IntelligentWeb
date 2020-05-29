@@ -1,3 +1,33 @@
+var version = 'offline-cache-v2';
+var cacheUrls = [
+    '/javascripts/index.js',
+    '/javascripts/post.js',
+    '/javascripts/wall.js',
+    '/stylesheets/style.css'
+]
+self.addEventListener('install',function (e) {
+    //check update
+    e.waitUntil(self.skipWaiting());
+});
+
+self.addEventListener('activate',function (e) {
+    e.waitUntil(
+        Promise.all([
+            self.clients.claim(),
+            //delete old version
+            caches.keys().then(function (cacheList) {
+                return Promise.all(
+                    cacheList.map(function (cacheName) {
+                        if(cacheName!== version){
+                            return caches.delete(cacheName);
+                        }
+                    })
+                );
+            })
+        ])
+    );
+});
+
 self.addEventListener('fetch',function (e) {
     console.log('url is',e.request.url)
     e.respondWith(
@@ -15,6 +45,12 @@ self.addEventListener('fetch',function (e) {
                 caches.open('offline-cache-v1').then(function (cache) {
                     cache.put(e.request, responseClone);
                 });
+                /*if(cacheUrls.findIndex(e.request.url)!==-1){
+                    var responseClone = httpRes.clone();
+                    caches.open('offline-cache-v1').then(function (cache) {
+                        cache.put(e.request, responseClone);
+                    });
+                }*/
                 return httpRes;
             });
         })
