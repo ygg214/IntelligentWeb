@@ -1,23 +1,28 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <title><%= title %></title>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hello  <%= title %></title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="http://malsup.github.io/jquery.form.js"></script>
     <script src="javascripts/index.js"></script>
 
-  </head>
-  <body onload="checkForErrors( <%= login_is_correct %>)">
-    <h1><%= title %></h1>
-    <p>Choose a user
+      <!-- TODO add manifest here -->
+      <link rel="manifest" href="/manifest.json">
 
-    <form action="mainpage" method="POST">
-      <select name="user" id="user">
-        <option value ="user1">User1</option>
-        <option value ="user2">User2</option>
-        <option value="user3">User3</option>
-        <option value="user4">User4</option>
-      </select>
-      <input type="submit" onclick=currentUser()></form>
-    </form>
-  </body>
+
+</head>
+<body onload = "checkLogin()">
+<dialog id="dia">
+  <p>Input a user id</p>
+  <p><input type="text" id="loginuser" oninput = "value=value.replace(/[^\d]/g,'')"></p>
+  <p><input type="submit" value="Confirm" onclick=chooseUser()></p>
+</dialog>
+<h1>Welcome!  <%= title %></h1>
+<div class="offline_div" id="offline_div" style="display: none">You are offline</div>
+<p><a href="post">Post</a></p>
+<p><a href="wall">Story Wall</a></p>
+<p><label id="results" style="margin-top:30px"></label></p>
+</body>
 </html>

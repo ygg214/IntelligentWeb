@@ -1,5 +1,5 @@
 var dataCacheName = 'textData';
-var cacheName = 'textDataPWA';
+var cacheName = 'offline-cache-v1';
 var filesToCache = [
     '/',
     '/javascripts/index.js',
@@ -74,39 +74,27 @@ self.addEventListener('fetch', function (e) {
         return;
     }
     if (e.request.url.indexOf(dataUrl) || e.request.url.indexOf(dataUrl1) || e.request.url.indexOf(dataUrl2) > -1) {
-        /*
-         * When the request URL contains dataUrl, the app is asking for fresh
-         * weather data. In this case, the service worker always goes to the
-         * network and then caches the response. This is called the "Cache then
-         * network" strategy:
-         * https://jakearchibald.com/2014/offline-cookbook/#cache-then-network
-         */
         return fetch(e.request).then(function (response) {
-            // note: it the network is down, response will contain the error
-            // that will be passed to Ajax
             return response;
         })
     } else {
-        /*
-         * The app is asking for app shell files. In this scenario the app uses the
-         * "Cache, falling back to the network" offline strategy:
-         * https://jakearchibald.com/2014/offline-cookbook/#cache-falling-back-to-network
-         */
+
         e.respondWith(
             caches.match(e.request).then(function (response) {
-                return response
-                    || fetch(e.request)
-                        .then(function (response) {
-                            // note if network error happens, fetch does not return
-                            // an error. it just returns response not ok
-                            // https://www.tjvantoll.com/2015/09/13/fetch-and-errors/
-                            if (!response.ok) {
-                                console.log("error: " + response.error());
-                            }
-                        })
-                        .catch(function (e) {
-                            console.log("error: " + e);
-                        })
+                if(response){
+                    return response;
+                }
+                var request = e.request.clone();
+                return fetch(request).then(function(httpRes){
+                    if(!httpRes || httpRes.status !== 200){
+                        return httpRes;
+                    }
+                    var responseClone = httpRes.clone();
+                    caches.open('offline-cache-v1').then(function(cache){
+                        cache.put(event.request, responseClone);
+                    });
+                    return httpRes;
+                });
             })
         );
     }

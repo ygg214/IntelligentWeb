@@ -8,8 +8,8 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
 var app = express();
-const server = require('http').createServer(app);
-const io = require('socket.io')(server);
+var server = require('http').createServer(app);
+var io = require('socket.io')(server);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -39,6 +39,12 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+app.use(express.static('node_modules'));
+
+app.get('/',(request,response)=>{
+  response.render('mainpage')
+})
 
 io.on('connection',socket=>{
   socket.on("sendToServer",message=>{
