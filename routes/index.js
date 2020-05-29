@@ -40,7 +40,7 @@ router.post('/post_pic',upload.single('file'),function(req,res,next){
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Hello World!' , login_is_correct: true});
+  res.render('index', { title: 'Hello World!'});
 });
 router.get('/post',function(req,res,next) {
   res.render('post',{title:'Post Page'});
@@ -50,15 +50,7 @@ router.get('/wall',function(req,res,next) {
 })
 
 /*POST home page*/
-router.post('/mainpage', function(req,res,next){
-  var login = req.body.user;
-  if(login == 'user1'|| login == 'user2'){
-    res.render('mainpage',{title:login, login_is_correct: true});
-  }else {
-    res.render('index',{title:'Hello World', login_is_correct:false});
-  }
-});
-router.post('/mainpage_rating',function (req,res,next) {
+router.post('/rating',function (req,res,next) {
   var postData = req.body;
   if(postData==null){
     res.status(403).send('No data sent!')

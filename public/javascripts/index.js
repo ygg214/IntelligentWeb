@@ -16,11 +16,16 @@ function checkLogin(){
 }
 
 function chooseUser(){
-    const value=document.getElementById("loginuser").value;
-    sessionStorage.setItem('USER_NAME',value);
-    var dialog = document.getElementById("dia");
-    dialog.close();
-    loadData();
+    if(document.getElementById("loginuser").value!=""){
+        const value=document.getElementById("loginuser").value;
+        sessionStorage.setItem('USER_NAME',value);
+        var dialog = document.getElementById("dia");
+        dialog.close();
+        loadData();
+    }else{
+        alert("Username cannot be empty");
+    }
+
 }
 
 function loadData() {
