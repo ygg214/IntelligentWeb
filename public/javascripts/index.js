@@ -43,7 +43,8 @@ function loadData() {
                 "user: " + value.userid +
                 "<p>"+"text id:"+value.textid +
                 "<p>"+"text: "+ value.text +
-                "<p><img src='"+value.picture+"'></img>"+
+                //"<p><img src='"+value.picture+"'></img>"+
+                "<p></p><a href=\"javascript:;\" class=\"picCheck\"><img src=\"${"+value.picture+"}\"></a></p>"+
                 "<p> <form id=\"form\" onsubmit=\"onSubmit()\">\n" +
                 "  <p hidden><input  name=\"userid\" value="+sessionStorage.getItem("USER_NAME")+"></p>\n" +
                 "  <p hidden><input  name=\"textid\" value="+value.textid+"></p>\n" +
@@ -54,7 +55,7 @@ function loadData() {
                 "      <option value=\"1\">dislike</option>\n" +
                 "      <option value=\"0\">hate</option>\n" +
                 "    </select>" +
-                "  <input type=\"submit\" value=\"Submit\"></p>" +
+                "  <button id=\"send\">send</button></p>" +
                 "</form></p>"+
                 "</div>";
         }else{
@@ -83,8 +84,29 @@ function loadData() {
 function onSubmit() {
     const socket = io.connect("http://localhost:8081");
     $("#send").click(function () {
-       let message = $("userid")
-    })
+       let message = $("userid").val().trim();
+       socket.emit("sendToServer",message);
+    });
+
+    socket.on("sendToClient",message=>{
+        console.log(message);
+    });
+}
+
+function uploadJSON() {
+    //this method read JSON files contain story information and store its content to Local storage and database
+    var inputElement = document.getElementById("JSONFile");
+    inputElement.addEventListener("change",hanleFIles,false);
+    function handleFiles() {
+        var selectedFile = document.getElementById("JSONFile").files[0];
+        var reader = new FileReader();
+        reader.readAsText(selectedFile);
+
+        reader.onload = function () {
+            //let json = JSON.parse(this.result);
+            localStorage.setItem(localStorage.length+1,this.result);
+        }
+    }
 }
 
 function storeCachedData(data) {

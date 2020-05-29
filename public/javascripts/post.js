@@ -73,13 +73,11 @@ function storeCachedData(data) {
 
 function uploadPicture(){
     var formData=new FormData();
-    //将文件信息追加到其中
+    //read information
     formData.append('file',file.files[0]);
-    //利用split切割，拿到上传文件的格式
     var src=file.files[0].name, formart=src.split(".")[1];
-    //使用if判断上传文件格式是否符合
+    //judge file format
     if(formart=="jpg"||formart=="png"){
-        //只有满足以上格式时，才会触发ajax请求
         $.ajax({
             url: '/post_pic',
             type: 'POST',
@@ -88,12 +86,10 @@ function uploadPicture(){
             contentType: false,
             processData: false,
             success: function (data) {
-                //上传成功之后，返回对象data
+                //return data after uploading
                 if (data.code > 0) {
                     var src = data.data;
-                    //利用返回值src 网络路径，来实现上传文档的下载
-                    //所有的图片格式
-                    msg = `<a href="javascript:;" class="picCheck"><img src="${src}"></a>`;
+                    //msg = `<a href="javascript:;" class="picCheck"><img src="${src}"></a>`;
                     // 这里将msg 追加到你要显示的区域
                     document.getElementById('picture').value = JSON.stringify(src);
                 }
