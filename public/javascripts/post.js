@@ -61,6 +61,7 @@ function onSubmit() {
     for (index in formArray){
         data[formArray[index].name]=formArray[index].value;
         data.textid = id + 1;
+        data.userid = sessionStorage.getItem("USER_NAME");
     }
     sendAjaxQuery('/post',data);
     event.preventDefault();
