@@ -58,6 +58,14 @@ router.post('/mainpage', function(req,res,next){
     res.render('index',{title:'Hello World', login_is_correct:false});
   }
 });
+router.post('/mainpage_rating',function (req,res,next) {
+  var postData = req.body;
+  if(postData==null){
+    res.status(403).send('No data sent!')
+  }
+  res.setHeader('Content-Type', 'application/json');
+  res.send(JSON.stringify(postData));
+})
 
 router.post('/post',function (req,res,next) {
   var postData = req.body;

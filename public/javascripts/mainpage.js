@@ -16,7 +16,49 @@ function loadData() {
             "user: " + value.user +
             "<p>"+"text id:"+value.textid +
             "<p>"+"text: "+ value.text +
-            "<p><img src="+value.picture+"/>"
+            "<p> <form id=\"form\" onsubmit=\"onSubmit()\">\n" +
+            "  <p hidden><input  name=\"userid\" id=\"userid\" value=\""+value.user+"\"></p>\n" +
+            "  <p hidden><input  name=\"textid\" id=\"textid\" value=\""+value.textid+"\"></p>\n" +
+            "     <p><select name=\"ratings\">\n" +
+            "      <option value =\"0\">hate</option>\n" +
+            "      <option value =\"1\">dislike</option>\n" +
+            "      <option value =\"2\">ok</option>\n" +
+            "      <option value=\"3\">like</option>\n" +
+            "      <option value=\"4\">Very like</option>\n" +
+            "    </select>" +
+            "  <input type=\"submit\" value=\"Submit\"></p>" +
+            "</form></p>"+
             "</div>";
     }
+}
+
+function onSubmit() {
+    var formArray = $("form").serializeArray();
+    var data = {};
+    for (index in formArray){
+        data[formArray[index].name]=formArray[index].value;
+    }
+    sendAjaxQuery('/mainpage_rating',data);
+    event.preventDefault();
+}
+function sendAjaxQuery(url, data) {
+    //getCachedData(data);
+    var input = JSON.stringify(data);
+    $.ajax({
+        url: url,
+        data: input,
+        contentType: 'application/json',
+        type: 'POST',
+        success: function (dataR) {
+            var ret = dataR;
+            storeCachedData(dataR);
+            //addToResult(dataR);
+        },
+        error: function (xhr, status, error) {
+            alert('Error' + error.message);
+        }
+    });
+}
+function storeCachedData(data) {
+    localStorage.setItem(data.textid,JSON.stringify(data));
 }
