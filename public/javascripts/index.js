@@ -44,7 +44,7 @@ function loadData() {
                 "<p>"+"text id:"+value.textid +
                 "<p>"+"text: "+ value.text +
                 "<p><img src='"+value.picture+"'></img>"+
-                "<p> <form id=\"form"+value.textid+"\" onsubmit=\"onSubmit()\">\n" +
+                "<p> <form id=\"form\" onsubmit=\"onSubmit()\">\n" +
                 "  <p hidden><input  name=\"userid\" value="+sessionStorage.getItem("USER_NAME")+"></p>\n" +
                 "  <p hidden><input  name=\"textid\" value="+value.textid+"></p>\n" +
                 "     <p><select name=\"ratings\">\n" +
@@ -62,8 +62,8 @@ function loadData() {
                 "user: " + value.userid +
                 "<p>"+"text id:"+value.textid +
                 "<p>"+"text: "+ value.text +
-                "<p> <form id=\"#"+value.textid+"\" onsubmit=\"onSubmit()\">\n" +
-                "  <p hidden><input  name=\"userid\" value="+sessionStorage.getItem("USER_NAME")+"></p>\n" +
+                "<p> <form id=\"#\" onsubmit=\"onSubmit()\">\n" +
+                "  <p hidden><input  name=\"userid\" id='userid' value="+sessionStorage.getItem("USER_NAME")+"></p>\n" +
                 "  <p hidden><input  name=\"textid\" value="+value.textid+"></p>\n" +
                 "     <p><select name=\"ratings\">\n" +
                 "      <option value =\"0\">hate</option>\n" +
@@ -81,7 +81,10 @@ function loadData() {
 }
 
 function onSubmit() {
-
+    const socket = io.connect("http://localhost:8081");
+    $("#send").click(function () {
+       let message = $("userid")
+    })
 }
 
 function storeCachedData(data) {

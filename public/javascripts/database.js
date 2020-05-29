@@ -32,7 +32,7 @@ function initDatabase(){
             userDB.createIndex('userId', 'userId', {unique: true});
             userDB.createIndex('ratings', 'ratings', {unique: false});
 
-            var storyDB = upgradeDb.createObjectStore(USER_STORE_NAME, {keyPath: 'storyId', autoIncrement: true});
+            var storyDB = upgradeDb.createObjectStore(STORY_STORE_NAME, {keyPath: 'storyId', autoIncrement: true});
             storyDB.createIndex('storyId', 'storyId', {unique: true});
             storyDB.createIndex('userId', 'userId', {unique: false});
             storyDB.createIndex('text', 'text', {unique: false});
