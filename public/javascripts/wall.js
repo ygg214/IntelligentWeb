@@ -9,7 +9,7 @@ function loadData() {
             var row = document.createElement('div');
             document.getElementById('results').appendChild(row);
             row.innerHTML =
-                "user: " + value.user +
+                "user: " + value.userid +
                 "<p>"+"text id:"+value.textid +
                 "<p>"+"text: "+ value.text +
                 "</div>";
