@@ -8,9 +8,14 @@
     <script src="http://malsup.github.io/jquery.form.js"></script>
     <script src="javascripts/mainpage.js"></script>
 
+      <!-- TODO add manifest here -->
+      <link rel="manifest" href="/manifest.json">
+
+
 </head>
 <body onload = "initPostData()">
 <h1>Welcome!  <%= title %></h1>
+<div class="offline_div" id="offline_div" style="display: none">You are offline</div>
 <p><a href="post">Post</a></p>
 <p><a href="wall">Story Wall</a></p>
 <p><label id="results" style="margin-top:30px"></label></p>

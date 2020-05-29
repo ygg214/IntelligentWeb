@@ -17,7 +17,7 @@ function loadData() {
             "<p>"+"text id:"+value.textid +
             "<p>"+"text: "+ value.text +
             "<p> <form id=\"form\" onsubmit=\"onSubmit()\">\n" +
-            "  <p hidden><input  name=\"userid\" id=\"userid\" value=\""+value.user+"\"></p>\n" +
+            "  <p hidden><input  name=\"userid\" id=\"userid\" value=\""+sessionStorage.getItem("USER_NAME")+"\"></p>\n" +
             "  <p hidden><input  name=\"textid\" id=\"textid\" value=\""+value.textid+"\"></p>\n" +
             "     <p><select name=\"ratings\">\n" +
             "      <option value =\"0\">hate</option>\n" +
@@ -60,5 +60,24 @@ function sendAjaxQuery(url, data) {
     });
 }
 function storeCachedData(data) {
-    localStorage.setItem(data.textid,JSON.stringify(data));
+    localStorage.setItem(data.userid +"."+ data.textid,JSON.stringify(data));
+}
+
+window.addEventListener('offline',function (e) {
+    console.log("You are offline");
+    showOfflineWarning();
+},false);
+
+window.addEventListener('online',function (e) {
+    console.log("You are online");
+    hideOfflineWarning();
+    loadData();
+},false);
+
+function showOfflineWarning() {
+
+}
+
+function hideOfflineWarning() {
+
 }
