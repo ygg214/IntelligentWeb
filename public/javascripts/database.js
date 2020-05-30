@@ -197,6 +197,60 @@ function readAllStoryByUserId(userId) {
     }
 }
 
+/**
+ * it could recommend stories by user
+ * @param userId
+ * @returns {*}
+ */
+function recommendStoryByUserId(userId) {
+    if (dbPromise) {
+        var storiesId = '"[{';
+        dbPromise.then(async db => {
+            var rtTx = db.transaction(RATING_STORE_NAME, 'readonly');
+            var rtStore = rtTx.objectStore(RATING_STORE_NAME);
+            var stTx = db.transaction(STORY_STORE_NAME, 'readonly');
+            var stStore = stTx.objectStore(STORY_STORE_NAME);
+            var story;
+            rtStore.openCursor().onsuccess = function (rtEvent){
+                var storeJson = '"story":[';
+                var itemJson = '';
+                var flag = 0;
+                var cursor = rtEvent.target.result;
+                for (var i = 4; i>=0 ; i--) {
+                    if (cursor && cursor.value.userId==userId && cursor.value.rating == i) {
+                        story = stStore.get(cursor.value.storyId);
+                        stStore.openCursor().onsuccess = function(stEvent){
+                            var stCursor = stEvent.target.result;
+                            if (stCursor && stCursor.value.userId==story.result.userId) {
+                                if(flag++ < 1) {
+                                    itemJson='{';
+                                } else {
+                                    itemJson=',{';
+                                }
+                                itemJson+='"storyId":' + stCursor.key + ',';
+                                itemJson+='"userId":' + stCursor.value.userId + ',';
+                                itemJson+='"text":"' + stCursor.value.text + '",';
+                                itemJson+='"picture":"' + stCursor.value.picture + '"}';
+                                storeJson+=itemJson;
+                                stCursor.continue();
+                            }
+                        }
+                        cursor.continue();
+                    }
+                }
+                storeJson+=']';
+                //return storeJson
+                console.log(storeJson);
+            }
+            return tx.complete;
+        }).then(function () {
+            console.log('find all stories and return json of stories ');
+        }).catch(function (error) {
+            // localStorage.setItem(user, JSON.stringify(userObject));
+        });
+    }
+}
+
 
 
 
