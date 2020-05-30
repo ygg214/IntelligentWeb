@@ -17,12 +17,13 @@ function initDatabase(){
             var storyDB = upgradeDb.createObjectStore(STORY_STORE_NAME, {keyPath: 'storyId', autoIncrement: true});
             storyDB.createIndex('userId', 'userId', {unique: false});
             storyDB.createIndex('text', 'text', {unique: false});
-            storyDB.createIndex('picture','picture', {unique: false})
+            storyDB.createIndex('picture','picture', {unique: false});
         }
         if (!upgradeDb.objectStoreNames.contains(RATING_STORE_NAME)) {
-            var ratingDB = upgradeDb.createObjectStore(STORY_STORE_NAME, {keyPath: 'ratingId', autoIncrement: true});
+            var ratingDB = upgradeDb.createObjectStore(RATING_STORE_NAME, {keyPath: 'ratingId', autoIncrement: true});
             ratingDB.createIndex('userId ', 'userId', {unique: false});
-            ratingDB.createIndex('rating','rating', {unique: false})
+            ratingDB.createIndex('storyId', 'storyId', {unique:false});
+            ratingDB.createIndex('rating','rating', {unique: false});
         }
     });
 }
@@ -72,12 +73,12 @@ function addUser(userId) {
  * @param user
  * @param rating
  */
-function addRating(userId, rating) {
+function addRating(userId, storyId, rating) {
     if (dbPromise) {
         dbPromise.then(async db => {
             var tx = db.transaction(RATING_STORE_NAME, 'readwrite');
             var store = tx.objectStore(RATING_STORE_NAME);
-            await store.add({userId:userId,rating:rating});
+            await store.add({userId:userId,storyId:storyId,rating:rating});
             return tx.complete;
         }).then(function () {
             console.log('add a new rating to the store! ');
@@ -94,12 +95,12 @@ function addRating(userId, rating) {
  * @param text
  * @param picture
  */
-function addStory(userId, text, picture) {
+function addStory(storyId, userId, text, picture) {
     if (dbPromise) {
         dbPromise.then(async db => {
             var tx = db.transaction(STORY_STORE_NAME, 'readwrite');
             var store = tx.objectStore(STORY_STORE_NAME);
-            await store.add({userId:userId, text:text, picture:picture});
+            await store.add({storyId:storyId, userId:userId, text:text, picture:picture});
             return tx.complete;
         }).then(function () {
             console.log('add a new story to the store! ');

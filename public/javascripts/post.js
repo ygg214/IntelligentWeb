@@ -68,6 +68,7 @@ function onSubmit() {
 }
 
 function storeCachedData(data) {
+    addStory(data.textid, data.userId, data.text, data.picture)
     localStorage.setItem(data.textid,JSON.stringify(data));
 }
 
