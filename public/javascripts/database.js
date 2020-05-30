@@ -48,6 +48,26 @@ function initDatabase(){
 //     else localStorage.setItem(user, JSON.stringify(userObject));
 // }
 /**
+ * it saves new user
+ * @param user
+ */
+function addUser(userId) {
+    if (dbPromise) {
+        dbPromise.then(async db => {
+            var tx = db.transaction(USER_STORE_NAME, 'readwrite');
+            var store = tx.objectStore(USER_STORE_NAME);
+            await store.add({userId:userId});
+            return tx.complete;
+        }).then(function () {
+            console.log('add a new user to the store! ');
+        }).catch(function (error) {
+            // localStorage.setItem(user, JSON.stringify(userObject));
+        });
+    }
+    // else localStorage.setItem(user, JSON.stringify(userObject));
+}
+
+/**
  * it saves the rating
  * @param user
  * @param rating
