@@ -211,6 +211,7 @@ function recommendStoryByUserId(userId) {
             var stTx = db.transaction(STORY_STORE_NAME, 'readonly');
             var stStore = stTx.objectStore(STORY_STORE_NAME);
             var story;
+            var usersProvided = [];
             rtStore.openCursor().onsuccess = function (rtEvent){
                 var storeJson = '"story":[';
                 var itemJson = '';
@@ -219,23 +220,32 @@ function recommendStoryByUserId(userId) {
                 for (var i = 4; i>=0 ; i--) {
                     if (cursor && cursor.value.userId==userId && cursor.value.rating == i) {
                         story = stStore.get(cursor.value.storyId);
-                        stStore.openCursor().onsuccess = function(stEvent){
-                            var stCursor = stEvent.target.result;
-                            if (stCursor && stCursor.value.userId==story.result.userId) {
-                                if(flag++ < 1) {
-                                    itemJson='{';
-                                } else {
-                                    itemJson=',{';
-                                }
-                                itemJson+='"storyId":' + stCursor.key + ',';
-                                itemJson+='"userId":' + stCursor.value.userId + ',';
-                                itemJson+='"text":"' + stCursor.value.text + '",';
-                                itemJson+='"picture":"' + stCursor.value.picture + '"}';
-                                storeJson+=itemJson;
-                                stCursor.continue();
-                            }
+                        var flagExist = 0;
+                        for(var j = 0; j < usersProvided.length; j++){
+                            if (story.result.userId == usersProvided[j]) flagExist = 1;
                         }
-                        cursor.continue();
+                        if (flagExist == 1) {
+                            cursor.continue();
+                        }else{
+                            usersProvided.push(story.result.userId);
+                            stStore.openCursor().onsuccess = function(stEvent){
+                                var stCursor = stEvent.target.result;
+                                if (stCursor && stCursor.value.userId==story.result.userId) {
+                                    if(flag++ < 1) {
+                                        itemJson='{';
+                                    } else {
+                                        itemJson=',{';
+                                    }
+                                    itemJson+='"storyId":' + stCursor.key + ',';
+                                    itemJson+='"userId":' + stCursor.value.userId + ',';
+                                    itemJson+='"text":"' + stCursor.value.text + '",';
+                                    itemJson+='"picture":"' + stCursor.value.picture + '"}';
+                                    storeJson+=itemJson;
+                                    stCursor.continue();
+                                }
+                            }
+                            cursor.continue();
+                        }
                     }
                 }
                 storeJson+=']';
