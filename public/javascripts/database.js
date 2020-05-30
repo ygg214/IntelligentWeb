@@ -92,9 +92,7 @@ function addStory(userId, text, picture) {
 
 /**
  * it find all story
- * @param userId
- * @param text
- * @param picture
+ * @returns {*}
  */
 function readAllStory() {
     if (dbPromise) {
@@ -134,7 +132,11 @@ function readAllStory() {
         });
     }
 }
-
+/**
+ * it find all story
+ * @param userId
+ * @returns {*}
+ */
 function readAllStoryByUserId(userId) {
     if (dbPromise) {
         dbPromise.then(async db => {
