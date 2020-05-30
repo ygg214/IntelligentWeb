@@ -70,33 +70,4 @@ router.post('/post',function (req,res,next) {
   res.send(JSON.stringify(postData));
 })
 
-/**
- *
- * @param userId
- * @param ratings
- * @constructor
- */
-class User{
-  constructor (userId, ratings) {
-    this.userId= userId;
-    this.ratings= ratings;
-  }
-}
-/**
- *
- * @param storyId
- * @param userId
- * @param text
- * @param picture
- * @constructor
- */
-class Story{
-  constructor (storyId, userId, text, picture) {
-    this.storyId= storyId;
-    this.userId= userId;
-    this.text= text;
-    this.picture= picture;
-  }
-}
-
 module.exports = router;
